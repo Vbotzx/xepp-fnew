@@ -3,13 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Xepp Portfolio</title>
-    <!-- Import font keren biar ga standard -->
+    <title>aXepp Creative Portfolio</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <!-- Buat icon WA, IG, Spotify dll -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* === SETTINGAN DASAR WARNA (LIGHT MODE) === */
+        /* === VARIABEL WARNA === */
         :root {
             --primary: #ff00aa; /* Pink neon */
             --secondary: #00ffaa; /* Hijau tosca */
@@ -21,32 +19,32 @@
             --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* Bayangan kartu */
         }
 
-        /* === DARK MODE WARNA DIUBAH === */
+        /* === DARK MODE === */
         .dark-mode {
-            --primary: #ff00aa; /* Tetap warna neon biar colorful */
-            --text: #f0f0f0; /* Tulisan putih */
-            --bg: #121212; /* Background item */
-            --card-bg: rgba(30, 30, 30, 0.8); /* Kartu dark mode */
+            --primary: #ff00aa;
+            --text: #f0f0f0;
+            --bg: #121212;
+            --card-bg: rgba(30, 30, 30, 0.8);
         }
 
-        /* === RESET CSS BIAR GA BERANTAKAN === */
+        /* === RESET CSS === */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            transition: all 0.3s ease; /* Animasi halus */
+            transition: all 0.3s ease;
         }
 
         body {
             font-family: 'Poppins', sans-serif;
             background: var(--bg);
             color: var(--text);
-            overflow-x: hidden;
             position: relative;
             min-height: 100vh;
+            overflow-x: hidden;
         }
 
-        /* BACKGROUND GRADIEN HALUS */
+        /* BACKGROUND GRADIEN */
         body::before {
             content: '';
             position: fixed;
@@ -55,53 +53,45 @@
             width: 100%;
             height: 100%;
             background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
-            opacity: 0.1; /* Biar ga silau */
+            opacity: 0.1;
             z-index: -2;
         }
 
-        /* LAYER AIR MENETES - BACKGROUND EFFECT */
-        .water-drop {
+        /* SILUET CONTAINER */
+        .siluet-container {
             position: fixed;
             width: 100%;
             height: 100%;
-            pointer-events: none; /* Biar tetesan ga ganggu klik */
+            pointer-events: none;
             z-index: -1;
+            overflow: hidden;
         }
 
-        /* ANIMASI TETESAN AIR */
-        .drop {
+        .siluet {
             position: absolute;
-            width: 10px;
-            height: 10px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 50%;
-            animation: drop 5s linear infinite;
-            opacity: 0;
+            opacity: 0.15;
+            animation: siluetMove 1.2s linear forwards;
+            pointer-events: none;
+            filter: blur(1px);
         }
 
-        /* KEYFRAME BUAT JATUHNYA TETESAN */
-        @keyframes drop {
+        @keyframes siluetMove {
             0% {
-                transform: translateY(-100px) scale(0.5);
-                opacity: 0;
-            }
-            10% {
-                opacity: 0.5;
+                transform: translateX(-100px) scale(1) rotate(0deg);
             }
             100% {
-                transform: translateY(100vh) scale(1);
-                opacity: 0;
+                transform: translateX(110vw) scale(var(--scale)) rotate(var(--rotate));
             }
         }
 
-        /* CONTAINER UTAMA BUAT RAPIIN ISI */
+        /* CONTAINER UTAMA */
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 2rem;
         }
 
-        /* HEADER ATAS (LOGO & TOMBOL DARK MODE) */
+        /* HEADER */
         header {
             display: flex;
             justify-content: space-between;
@@ -109,7 +99,7 @@
             margin-bottom: 3rem;
         }
 
-        /* LOGO 'XEPP' GRADIEN ANIMASI */
+        /* LOGO */
         .logo {
             font-size: 2.5rem;
             font-weight: 700;
@@ -117,18 +107,17 @@
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            animation: gradientShift 5s ease infinite; /* Animasi gradien jalan */
+            animation: gradientShift 5s ease infinite;
             background-size: 200% 200%;
         }
 
-        /* ANIMASI GRADIEN BERJALAN */
         @keyframes gradientShift {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
 
-        /* TOMBOL GANTI TEMA (DARK/LIGHT) */
+        /* TOMBOL TEMA */
         .theme-toggle {
             background: var(--card-bg);
             border: none;
@@ -142,9 +131,14 @@
             box-shadow: var(--box-shadow);
             color: var(--text);
             font-size: 1.5rem;
+            transition: transform 0.3s ease;
         }
 
-        /* BAGIAN PROFILE (FOTO & BIO) */
+        .theme-toggle:hover {
+            transform: scale(1.1) rotate(15deg);
+        }
+
+        /* PROFILE SECTION */
         .profile {
             display: flex;
             flex-direction: column;
@@ -152,20 +146,22 @@
             margin-bottom: 3rem;
         }
 
-        /* FOTO PROFILE LINGKARAN GLOW */
         .profile-pic {
             width: 200px;
             height: 200px;
             border-radius: 50%;
             object-fit: cover;
             border: 5px solid transparent;
-            /* GLOW 3 LAPIS WARNA */
             box-shadow: 0 0 0 3px var(--primary), 0 0 0 6px var(--secondary), 0 0 0 9px var(--accent);
-            animation: borderGlow 3s ease infinite alternate; /* Animasi glow ganti warna */
+            animation: borderGlow 3s ease infinite alternate;
             margin-bottom: 2rem;
+            transition: transform 0.5s ease;
         }
 
-        /* ANIMASI GLOW BORDER */
+        .profile-pic:hover {
+            transform: scale(1.05) rotate(5deg);
+        }
+
         @keyframes borderGlow {
             0% { box-shadow: 0 0 0 3px var(--primary), 0 0 0 6px var(--secondary), 0 0 0 9px var(--accent); }
             33% { box-shadow: 0 0 0 3px var(--secondary), 0 0 0 6px var(--accent), 0 0 0 9px var(--primary); }
@@ -173,7 +169,6 @@
             100% { box-shadow: 0 0 0 3px var(--primary), 0 0 0 6px var(--secondary), 0 0 0 9px var(--accent); }
         }
 
-        /* NAMA PROFILE (GRADIEN JUGA) */
         .profile h1 {
             font-size: 2.5rem;
             margin-bottom: 1rem;
@@ -185,7 +180,6 @@
             background-size: 200% 200%;
         }
 
-        /* TAGLINE DI BAWAH NAMA */
         .profile p {
             font-size: 1.2rem;
             opacity: 0.8;
@@ -194,47 +188,43 @@
             line-height: 1.6;
         }
 
-        /* KARTU INFO (ABOUT ME) */
+        /* INFO CARD */
         .info-card {
             background: var(--card-bg);
-            backdrop-filter: blur(10px); /* Efek blur biar aesthetic */
+            backdrop-filter: blur(10px);
             border-radius: var(--border-radius);
             padding: 2rem;
             margin-bottom: 3rem;
             box-shadow: var(--box-shadow);
             border: 1px solid rgba(255, 255, 255, 0.1);
             transform: perspective(1000px) rotateX(0deg);
-            transition: transform 0.5s ease; /* Animasi miring dikit */
+            transition: transform 0.5s ease;
         }
 
-        /* ANIMASI KETIKA DI HOVER */
         .info-card:hover {
             transform: perspective(1000px) rotateX(5deg);
         }
 
-        /* JUDUL ABOUT ME */
         .info-card h2 {
             font-size: 1.8rem;
             margin-bottom: 1.5rem;
             color: var(--primary);
         }
 
-        /* PARAGRAF ABOUT ME */
         .info-card p {
             line-height: 1.6;
             margin-bottom: 1.5rem;
         }
 
-        /* BAGIAN DISCLAIMER (TULISAN WARNA-WARNI) */
+        /* DISCLAIMER */
         .disclaimer {
             border: 2px dashed;
             padding: 1rem;
             margin: 2rem 0;
             border-radius: var(--border-radius);
-            animation: colorChange 5s linear infinite; /* Animasi ganti warna */
+            animation: colorChange 5s linear infinite;
         }
 
-        /* ANIMASI WARNA DISCLAIMER */
         @keyframes colorChange {
             0% { border-color: #00ff00; color: #00ff00; }
             25% { border-color: #ff00ff; color: #ff00ff; }
@@ -243,7 +233,7 @@
             100% { border-color: #00ff00; color: #00ff00; }
         }
 
-        /* LAYER INFO (ALAMAT, UMUR, HOBI) */
+        /* PERSONAL INFO */
         .personal-info {
             display: flex;
             flex-wrap: wrap;
@@ -251,7 +241,6 @@
             margin-top: 1.5rem;
         }
 
-        /* ITEM INFO (BUBBLE WARNA) */
         .info-item {
             background: linear-gradient(45deg, var(--primary), var(--accent));
             padding: 1rem 1.5rem;
@@ -259,29 +248,26 @@
             color: white;
             font-weight: 600;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            animation: float 3s ease-in-out infinite; /* Animasi mengambang */
+            animation: float 3s ease-in-out infinite;
         }
 
-        /* ANIMASI BOUNCE UP DOWN */
         @keyframes float {
             0% { transform: translateY(0); }
             50% { transform: translateY(-10px); }
             100% { transform: translateY(0); }
         }
 
-        /* WARNA BUBBLE KE-2 */
         .info-item:nth-child(2) {
             animation-delay: 0.5s;
             background: linear-gradient(45deg, var(--secondary), var(--primary));
         }
 
-        /* WARNA BUBBLE KE-3 */
         .info-item:nth-child(3) {
             animation-delay: 1s;
             background: linear-gradient(45deg, var(--accent), var(--secondary));
         }
 
-        /* CONTAINER UNTUK MUSIK SECTION */
+        /* MUSIK SECTION */
         .waveform-container {
             margin: 3rem 0;
             padding: 1.5rem;
@@ -293,7 +279,6 @@
             align-items: center;
         }
 
-        /* HEADER MUSIK (ALBUM COVER + JUDUL) */
         .music-header {
             display: flex;
             align-items: center;
@@ -303,16 +288,19 @@
             justify-content: center;
         }
 
-        /* COVER ALBUM MUSIK */
         .album-cover {
             width: 50px;
             height: 50px;
             border-radius: 8px;
             object-fit: cover;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
         }
 
-        /* VISUALIZER WAVEFORM */
+        .album-cover:hover {
+            transform: scale(1.1);
+        }
+
         .waveform {
             display: flex;
             align-items: center;
@@ -322,21 +310,24 @@
             justify-content: center;
         }
 
-        /* BAR-BAR WAVEFORM */
         .bar {
             background: linear-gradient(to top, var(--primary), var(--accent));
             width: 3px;
             border-radius: 3px;
-            animation: equalize 1.5s infinite ease-in-out; /* Animasi naik turun */
+            animation: none; /* Awalnya tidak ada animasi */
+            height: 10px;
         }
 
-        /* ANIMASI BAR WAVEFORM */
+        /* Animasi hanya aktif di dark mode */
+        .dark-mode .bar {
+            animation: equalize 1.5s infinite ease-in-out;
+        }
+
         @keyframes equalize {
             0%, 100% { height: 10px; }
             50% { height: 30px; }
         }
 
-        /* TINGGI BAR BERBEDA-BEDA BIAR HIDUP */
         .bar:nth-child(1) { animation-delay: 0.1s; }
         .bar:nth-child(2) { animation-delay: 0.3s; height: 25px; }
         .bar:nth-child(3) { animation-delay: 0.5s; height: 15px; }
@@ -348,7 +339,6 @@
         .bar:nth-child(9) { animation-delay: 0.5s; height: 30px; }
         .bar:nth-child(10) { animation-delay: 0.2s; height: 20px; }
 
-        /* JUDUL LAGU */
         .music-title {
             text-align: center;
             margin: 0.5rem 0;
@@ -356,9 +346,8 @@
             opacity: 0.8;
         }
 
-        /* TOMBOL SPOTIFY */
         .spotify-button {
-            background: #1DB954; /* Hijau Spotify */
+            background: #1DB954;
             color: white;
             border: none;
             padding: 0.5rem 1rem;
@@ -375,13 +364,12 @@
             text-decoration: none;
         }
 
-        /* ANIMASI TOMBOL SPOTIFY PAS DI HOVER */
         .spotify-button:hover {
             transform: translateY(-2px);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
 
-        /* FOOTER PALING BAWAH */
+        /* FOOTER */
         .footer {
             text-align: center;
             margin-top: 3rem;
@@ -389,21 +377,7 @@
             font-size: 0.8rem;
         }
 
-        /* TULISAN RGB 'MADE WITH DEEPSEEK' */
-        .rgb-text {
-            font-weight: bold;
-            animation: rgbText 3s linear infinite; /* Animasi ganti warna */
-        }
-
-        /* ANIMASI WARNA RGB */
-        @keyframes rgbText {
-            0% { color: #ff0000; } /* Merah */
-            33% { color: #00ff00; } /* Hijau */
-            66% { color: #0000ff; } /* Biru */
-            100% { color: #ff0000; } /* Balik ke merah */
-        }
-
-        /* TOMBOL SOSMED MELAYANG (WA & IG) */
+        /* SOSIAL MEDIA */
         .social-buttons {
             position: fixed;
             bottom: 2rem;
@@ -414,7 +388,6 @@
             z-index: 100;
         }
 
-        /* STYLE DASAR TOMBOL SOSMED */
         .social-button {
             width: 50px;
             height: 50px;
@@ -426,23 +399,26 @@
             font-size: 1.5rem;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
             cursor: pointer;
-            animation: float 3s ease-in-out infinite; /* Animasi mengambang */
+            animation: float 3s ease-in-out infinite;
             text-decoration: none;
+            transition: transform 0.3s ease;
         }
 
-        /* WARNA WA */
+        .social-button:hover {
+            transform: scale(1.1);
+        }
+
         .whatsapp {
             background: #25D366;
             animation-delay: 0.2s;
         }
 
-        /* GRADIEN INSTAGRAM */
         .instagram {
             background: linear-gradient(45deg, #405DE6, #5851DB, #833AB4, #C13584, #E1306C, #FD1D1D, #F56040, #F77737, #FCAF45, #FFDC80);
             animation-delay: 0.4s;
         }
 
-        /* RESPONSIVE UNTUK HP */
+        /* RESPONSIVE */
         @media (max-width: 768px) {
             .container {
                 padding: 1rem;
@@ -460,46 +436,51 @@
             .info-card {
                 padding: 1.5rem;
             }
+            
+            .social-buttons {
+                bottom: 1rem;
+                right: 1rem;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- LAYER 1: BACKGROUND TETESAN AIR -->
-    <div class="water-drop" id="waterDrop"></div>
+    <!-- BACKGROUND SILUET -->
+    <div class="siluet-container" id="siluetContainer"></div>
     
-    <!-- LAYER 2: MUSIK AUTOPLAY -->
-    <audio id="bgMusic" autoplay loop>
+    <!-- MUSIK AUTOPLAY -->
+    <audio id="bgMusic" loop>
         <source src="https://files.catbox.moe/9yc3fe.mp4" type="audio/mp4">
     </audio>
 
-    <!-- LAYER 3: KONTEN UTAMA -->
+    <!-- KONTEN UTAMA -->
     <div class="container">
-        <!-- BAGIAN HEADER ATAS -->
+        <!-- HEADER -->
         <header>
-            <div class="logo">Xepp</div>
+            <div class="logo">aXepp</div>
             <button class="theme-toggle" id="themeToggle">
                 <i class="fas fa-moon"></i>
             </button>
         </header>
 
-        <!-- LAYER 4: PROFILE SECTION -->
+        <!-- PROFILE SECTION -->
         <section class="profile">
-            <img src="https://files.catbox.moe/6wxxpv.jpg" alt="Xepp" class="profile-pic">
-            <h1>Xepp Creative</h1>
+            <img src="https://files.catbox.moe/1we14a.jpg" alt="aXepp" class="profile-pic">
+            <h1>aXepp Creative</h1>
             <p>Digital Artist | Web Designer | Unconventional Thinker</p>
         </section>
 
-        <!-- LAYER 5: INFO CARD -->
+        <!-- INFO CARD -->
         <section class="info-card">
             <h2>About Me</h2>
-            <p>Welcome to my vibrant digital space! I'm Xepp, a creative professional who thrives on pushing boundaries and exploring the intersection of technology and art. My work is a colorful blend of imagination and technical skill, always seeking new ways to inspire and innovate.</p>
+            <p>Welcome to my vibrant digital space! I'm aXepp, a creative professional who thrives on pushing boundaries and exploring the intersection of technology and art. My work is a colorful blend of imagination and technical skill, always seeking new ways to inspire and innovate.</p>
             
-            <!-- DISCLAIMER WARNING -->
+            <!-- DISCLAIMER -->
             <div class="disclaimer">
                 "this is just a random website there is nothing true in this portfolio"
             </div>
             
-            <!-- DATA DIRI DALAM BUBBLE -->
+            <!-- PERSONAL INFO -->
             <div class="personal-info">
                 <div class="info-item">Address: DKI Jakarta</div>
                 <div class="info-item">Age: 17</div>
@@ -507,7 +488,7 @@
             </div>
         </section>
 
-        <!-- LAYER 6: MUSIK SECTION -->
+        <!-- MUSIK SECTION -->
         <div class="waveform-container">
             <div class="music-header">
                 <img src="https://files.catbox.moe/nsm8z6.jpg" alt="The Weeknd, Playboi Carti - Timeless" class="album-cover">
@@ -530,13 +511,13 @@
             </a>
         </div>
 
-        <!-- LAYER 7: FOOTER -->
+        <!-- FOOTER -->
         <footer class="footer">
-            <div class="rgb-text">Made with DeepSeek</div>
+            <div class="rgb-text">Made With Creative Chaos ©2025</div>
         </footer>
     </div>
 
-    <!-- LAYER 8: TOMBOL SOSMED MELAYANG -->
+    <!-- SOSIAL MEDIA -->
     <div class="social-buttons">
         <a href="https://wa.me/6283834683978" class="social-button whatsapp">
             <i class="fab fa-whatsapp"></i>
@@ -547,60 +528,96 @@
     </div>
 
     <script>
-        // === FUNGSI GANTI TEMA (DARK/LIGHT) ===
+        // === ELEMEN UTAMA ===
         const themeToggle = document.getElementById('themeToggle');
         const icon = themeToggle.querySelector('i');
+        const audio = document.getElementById('bgMusic');
+        const siluetContainer = document.getElementById('siluetContainer');
         
+        // Status untuk menandai apakah musik sudah dimulai
+        let musicStarted = false;
+        
+        // === FUNGSI GANTI TEMA ===
         themeToggle.addEventListener('click', () => {
-            document.body.classList.toggle('dark-mode');
+            const isDarkMode = document.body.classList.toggle('dark-mode');
             
             // Ganti icon bulan/matahari
-            if (document.body.classList.contains('dark-mode')) {
+            if (isDarkMode) {
                 icon.classList.remove('fa-moon');
                 icon.classList.add('fa-sun');
             } else {
                 icon.classList.remove('fa-sun');
                 icon.classList.add('fa-moon');
             }
+            
+            // Mulai musik hanya sekali saat pertama kali tombol diklik
+            if (!musicStarted) {
+                audio.volume = 0.3;
+                audio.play().catch(e => console.log('Auto-play prevented:', e));
+                musicStarted = true;
+            }
         });
 
-        // === FUNGSI BIKIN TETESAN AIR ===
-        const waterDrop = document.getElementById('waterDrop');
-        
-        function createDrops() {
-            const dropCount = 20; // Jumlah tetesan
+        // === FUNGSI BIKIN SILUET ===
+        function createSiluet() {
+            const siluet = document.createElement('div');
+            siluet.className = 'siluet';
             
-            for (let i = 0; i < dropCount; i++) {
-                const drop = document.createElement('div');
-                drop.classList.add('drop');
-                
-                // Acak posisi horizontal
-                drop.style.left = `${Math.random() * 100}%`;
-                
-                // Acak ukuran
-                const size = Math.random() * 10 + 5;
-                drop.style.width = `${size}px`;
-                drop.style.height = `${size}px`;
-                
-                // Acak kecepatan jatuh
-                const duration = Math.random() * 3 + 2;
-                const delay = Math.random() * 5;
-                drop.style.animation = `drop ${duration}s linear ${delay}s infinite`;
-                
-                waterDrop.appendChild(drop);
+            // Ukuran acak
+            const size = Math.random() * 60 + 20;
+            siluet.style.width = `${size}px`;
+            siluet.style.height = `${size}px`;
+            
+            // Posisi vertikal acak
+            siluet.style.top = `${Math.random() * window.innerHeight}px`;
+            
+            // Warna merah atau putih secara acak
+            siluet.style.backgroundColor = Math.random() > 0.5 ? '#ff0000' : '#ffffff';
+            
+            // Bentuk acak (bulat atau kotak)
+            const shape = Math.random();
+            if (shape > 0.7) {
+                // Bentuk kotak
+                siluet.style.borderRadius = '0%';
+            } else if (shape > 0.4) {
+                // Bentuk oval
+                siluet.style.borderRadius = '40%';
+            } else {
+                // Bentuk bulat
+                siluet.style.borderRadius = '50%';
             }
+            
+            // Efek rotasi
+            const rotate = Math.random() * 360;
+            siluet.style.setProperty('--rotate', `${rotate}deg`);
+            
+            // Skala acak
+            const scale = Math.random() * 0.8 + 0.5;
+            siluet.style.setProperty('--scale', scale);
+            
+            // Durasi animasi acak (cepat)
+            const duration = Math.random() * 0.8 + 0.4;
+            siluet.style.animationDuration = `${duration}s`;
+            
+            siluetContainer.appendChild(siluet);
+            
+            // Hapus siluet setelah animasi selesai
+            setTimeout(() => {
+                siluet.remove();
+            }, duration * 1000);
         }
         
-        // Jalankan fungsi bikin tetesan
-        createDrops();
-
-        // === FUNGSI AUTOPLAY MUSIK ===
-        // (Harus ada interaksi user dulu baru bisa play)
-        document.addEventListener('click', function() {
-            const audio = document.getElementById('bgMusic');
-            audio.volume = 0.3; // Volume 30% biar ga garing
-            audio.play().catch(e => console.log('Auto-play prevented:', e));
-        }, { once: true }); // Cuma perlu sekali klik
+        // Buat siluet secara berkala
+        setInterval(createSiluet, 100);
+        
+        // === FUNGSI TAMBAHAN UNTUK INTERAKSI ===
+        // Mulai efek siluet saat halaman dimuat
+        window.addEventListener('load', () => {
+            // Buat beberapa siluet awal
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => createSiluet(), i * 50);
+            }
+        });
     </script>
 </body>
 </html>
