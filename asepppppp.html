@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xepp Portfolio</title>
+    <!-- Import font keren biar ga standard -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Buat icon WA, IG, Spotify dll -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* === SETTINGAN DASAR WARNA (LIGHT MODE) === */
+        :root {
+            --primary: #ff00aa; /* Pink neon */
+            --secondary: #00ffaa; /* Hijau tosca */
+            --accent: #aa00ff; /* Ungu */
+            --text: #333; /* Tulisan item */
+            --bg: #f0f0f0; /* Background terang */
+            --card-bg: rgba(255, 255, 255, 0.8); /* Kartu semi transparan */
+            --border-radius: 20px; /* Sudut melengkung */
+            --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* Bayangan kartu */
+        }
+
+        /* === DARK MODE WARNA DIUBAH === */
+        .dark-mode {
+            --primary: #ff00aa; /* Tetap warna neon biar colorful */
+            --text: #f0f0f0; /* Tulisan putih */
+            --bg: #121212; /* Background item */
+            --card-bg: rgba(30, 30, 30, 0.8); /* Kartu dark mode */
+        }
+
+        /* === RESET CSS BIAR GA BERANTAKAN === */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: all 0.3s ease; /* Animasi halus */
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* BACKGROUND GRADIEN HALUS */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+            opacity: 0.1; /* Biar ga silau */
+            z-index: -2;
+        }
+
+        /* LAYER AIR MENETES - BACKGROUND EFFECT */
+        .water-drop {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* Biar tetesan ga ganggu klik */
+            z-index: -1;
+        }
+
+        /* ANIMASI TETESAN AIR */
+        .drop {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            animation: drop 5s linear infinite;
+            opacity: 0;
+        }
+
+        /* KEYFRAME BUAT JATUHNYA TETESAN */
+        @keyframes drop {
+            0% {
+                transform: translateY(-100px) scale(0.5);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.5;
+            }
+            100% {
+                transform: translateY(100vh) scale(1);
+                opacity: 0;
+            }
+        }
+
+        /* CONTAINER UTAMA BUAT RAPIIN ISI */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* HEADER ATAS (LOGO & TOMBOL DARK MODE) */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3rem;
+        }
+
+        /* LOGO 'XEPP' GRADIEN ANIMASI */
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--primary), var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: gradientShift 5s ease infinite; /* Animasi gradien jalan */
+            background-size: 200% 200%;
+        }
+
+        /* ANIMASI GRADIEN BERJALAN */
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* TOMBOL GANTI TEMA (DARK/LIGHT) */
+        .theme-toggle {
+            background: var(--card-bg);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: var(--box-shadow);
+            color: var(--text);
+            font-size: 1.5rem;
+        }
+
+        /* BAGIAN PROFILE (FOTO & BIO) */
+        .profile {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 3rem;
+        }
+
+        /* FOTO PROFILE LINGKARAN GLOW */
+        .profile-pic {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid transparent;
+            /* GLOW 3 LAPIS WARNA */
+            box-shadow: 0 0 0 3px var(--primary), 0 0 0 6px var(--secondary), 0 0 0 9px var(--accent);
+            animation: borderGlow 3s ease infinite alternate; /* Animasi glow ganti warna */
+            margin-bottom: 2rem;
+        }
+
+        /* ANIMASI GLOW BORDER */
+        @keyframes borderGlow {
+            0% { box-shadow: 0 0 0 3px var(--primary), 0 0 0 6px var(--secondary), 0 0 0 9px var(--accent); }
+            33% { box-shadow: 0 0 0 3px var(--secondary), 0 0 0 6px var(--accent), 0 0 0 9px var(--primary); }
+            66% { box-shadow: 0 0 0 3px var(--accent), 0 0 0 6px var(--primary), 0 0 0 9px var(--secondary); }
+            100% { box-shadow: 0 0 0 3px var(--primary), 0 0 0 6px var(--secondary), 0 0 0 9px var(--accent); }
+        }
+
+        /* NAMA PROFILE (GRADIEN JUGA) */
+        .profile h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, var(--primary), var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: gradientShift 5s ease infinite;
+            background-size: 200% 200%;
+        }
+
+        /* TAGLINE DI BAWAH NAMA */
+        .profile p {
+            font-size: 1.2rem;
+            opacity: 0.8;
+            max-width: 600px;
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        /* KARTU INFO (ABOUT ME) */
+        .info-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px); /* Efek blur biar aesthetic */
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            margin-bottom: 3rem;
+            box-shadow: var(--box-shadow);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transform: perspective(1000px) rotateX(0deg);
+            transition: transform 0.5s ease; /* Animasi miring dikit */
+        }
+
+        /* ANIMASI KETIKA DI HOVER */
+        .info-card:hover {
+            transform: perspective(1000px) rotateX(5deg);
+        }
+
+        /* JUDUL ABOUT ME */
+        .info-card h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+        }
+
+        /* PARAGRAF ABOUT ME */
+        .info-card p {
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        /* BAGIAN DISCLAIMER (TULISAN WARNA-WARNI) */
+        .disclaimer {
+            border: 2px dashed;
+            padding: 1rem;
+            margin: 2rem 0;
+            border-radius: var(--border-radius);
+            animation: colorChange 5s linear infinite; /* Animasi ganti warna */
+        }
+
+        /* ANIMASI WARNA DISCLAIMER */
+        @keyframes colorChange {
+            0% { border-color: #00ff00; color: #00ff00; }
+            25% { border-color: #ff00ff; color: #ff00ff; }
+            50% { border-color: #ffff00; color: #ffff00; }
+            75% { border-color: #00ffff; color: #00ffff; }
+            100% { border-color: #00ff00; color: #00ff00; }
+        }
+
+        /* LAYER INFO (ALAMAT, UMUR, HOBI) */
+        .personal-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        /* ITEM INFO (BUBBLE WARNA) */
+        .info-item {
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            padding: 1rem 1.5rem;
+            border-radius: 50px;
+            color: white;
+            font-weight: 600;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            animation: float 3s ease-in-out infinite; /* Animasi mengambang */
+        }
+
+        /* ANIMASI BOUNCE UP DOWN */
+        @keyframes float {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0); }
+        }
+
+        /* WARNA BUBBLE KE-2 */
+        .info-item:nth-child(2) {
+            animation-delay: 0.5s;
+            background: linear-gradient(45deg, var(--secondary), var(--primary));
+        }
+
+        /* WARNA BUBBLE KE-3 */
+        .info-item:nth-child(3) {
+            animation-delay: 1s;
+            background: linear-gradient(45deg, var(--accent), var(--secondary));
+        }
+
+        /* CONTAINER UNTUK MUSIK SECTION */
+        .waveform-container {
+            margin: 3rem 0;
+            padding: 1.5rem;
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* HEADER MUSIK (ALBUM COVER + JUDUL) */
+        .music-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            width: 100%;
+            justify-content: center;
+        }
+
+        /* COVER ALBUM MUSIK */
+        .album-cover {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            object-fit: cover;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* VISUALIZER WAVEFORM */
+        .waveform {
+            display: flex;
+            align-items: center;
+            height: 40px;
+            gap: 3px;
+            width: 100%;
+            justify-content: center;
+        }
+
+        /* BAR-BAR WAVEFORM */
+        .bar {
+            background: linear-gradient(to top, var(--primary), var(--accent));
+            width: 3px;
+            border-radius: 3px;
+            animation: equalize 1.5s infinite ease-in-out; /* Animasi naik turun */
+        }
+
+        /* ANIMASI BAR WAVEFORM */
+        @keyframes equalize {
+            0%, 100% { height: 10px; }
+            50% { height: 30px; }
+        }
+
+        /* TINGGI BAR BERBEDA-BEDA BIAR HIDUP */
+        .bar:nth-child(1) { animation-delay: 0.1s; }
+        .bar:nth-child(2) { animation-delay: 0.3s; height: 25px; }
+        .bar:nth-child(3) { animation-delay: 0.5s; height: 15px; }
+        .bar:nth-child(4) { animation-delay: 0.2s; height: 30px; }
+        .bar:nth-child(5) { animation-delay: 0.4s; height: 20px; }
+        .bar:nth-child(6) { animation-delay: 0.6s; height: 10px; }
+        .bar:nth-child(7) { animation-delay: 0.3s; height: 25px; }
+        .bar:nth-child(8) { animation-delay: 0.1s; height: 15px; }
+        .bar:nth-child(9) { animation-delay: 0.5s; height: 30px; }
+        .bar:nth-child(10) { animation-delay: 0.2s; height: 20px; }
+
+        /* JUDUL LAGU */
+        .music-title {
+            text-align: center;
+            margin: 0.5rem 0;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* TOMBOL SPOTIFY */
+        .spotify-button {
+            background: #1DB954; /* Hijau Spotify */
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            margin-top: 0.5rem;
+            text-decoration: none;
+        }
+
+        /* ANIMASI TOMBOL SPOTIFY PAS DI HOVER */
+        .spotify-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        /* FOOTER PALING BAWAH */
+        .footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding: 2rem 0;
+            font-size: 0.8rem;
+        }
+
+        /* TULISAN RGB 'MADE WITH DEEPSEEK' */
+        .rgb-text {
+            font-weight: bold;
+            animation: rgbText 3s linear infinite; /* Animasi ganti warna */
+        }
+
+        /* ANIMASI WARNA RGB */
+        @keyframes rgbText {
+            0% { color: #ff0000; } /* Merah */
+            33% { color: #00ff00; } /* Hijau */
+            66% { color: #0000ff; } /* Biru */
+            100% { color: #ff0000; } /* Balik ke merah */
+        }
+
+        /* TOMBOL SOSMED MELAYANG (WA & IG) */
+        .social-buttons {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            z-index: 100;
+        }
+
+        /* STYLE DASAR TOMBOL SOSMED */
+        .social-button {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            animation: float 3s ease-in-out infinite; /* Animasi mengambang */
+            text-decoration: none;
+        }
+
+        /* WARNA WA */
+        .whatsapp {
+            background: #25D366;
+            animation-delay: 0.2s;
+        }
+
+        /* GRADIEN INSTAGRAM */
+        .instagram {
+            background: linear-gradient(45deg, #405DE6, #5851DB, #833AB4, #C13584, #E1306C, #FD1D1D, #F56040, #F77737, #FCAF45, #FFDC80);
+            animation-delay: 0.4s;
+        }
+
+        /* RESPONSIVE UNTUK HP */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .profile h1 {
+                font-size: 2rem;
+            }
+            
+            .profile-pic {
+                width: 150px;
+                height: 150px;
+            }
+            
+            .info-card {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- LAYER 1: BACKGROUND TETESAN AIR -->
+    <div class="water-drop" id="waterDrop"></div>
+    
+    <!-- LAYER 2: MUSIK AUTOPLAY -->
+    <audio id="bgMusic" autoplay loop>
+        <source src="https://files.catbox.moe/9yc3fe.mp4" type="audio/mp4">
+    </audio>
+
+    <!-- LAYER 3: KONTEN UTAMA -->
+    <div class="container">
+        <!-- BAGIAN HEADER ATAS -->
+        <header>
+            <div class="logo">Xepp</div>
+            <button class="theme-toggle" id="themeToggle">
+                <i class="fas fa-moon"></i>
+            </button>
+        </header>
+
+        <!-- LAYER 4: PROFILE SECTION -->
+        <section class="profile">
+            <img src="https://files.catbox.moe/6wxxpv.jpg" alt="Xepp" class="profile-pic">
+            <h1>Xepp Creative</h1>
+            <p>Digital Artist | Web Designer | Unconventional Thinker</p>
+        </section>
+
+        <!-- LAYER 5: INFO CARD -->
+        <section class="info-card">
+            <h2>About Me</h2>
+            <p>Welcome to my vibrant digital space! I'm Xepp, a creative professional who thrives on pushing boundaries and exploring the intersection of technology and art. My work is a colorful journey through digital landscapes, where I blend unconventional ideas with technical expertise.</p>
+            
+            <!-- DISCLAIMER WARNING -->
+            <div class="disclaimer">
+                "this is just a random website there is nothing true in this portfolio"
+            </div>
+            
+            <!-- DATA DIRI DALAM BUBBLE -->
+            <div class="personal-info">
+                <div class="info-item">Address: DKI Jakarta</div>
+                <div class="info-item">Age: 17</div>
+                <div class="info-item">Hobby: Eating nails</div>
+            </div>
+        </section>
+
+        <!-- LAYER 6: MUSIK SECTION -->
+        <div class="waveform-container">
+            <div class="music-header">
+                <img src="https://files.catbox.moe/nsm8z6.jpg" alt="The Weeknd, Playboi Carti - Timeless" class="album-cover">
+                <div class="music-title">The Weeknd, Playboi Carti - Timeless</div>
+            </div>
+            <div class="waveform">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+            <a href="https://open.spotify.com/track/0FIDCNYYjNvPVimz5icugS?si=c2Ztz7fVTwmn7JpuDUK0lQ" target="_blank" class="spotify-button">
+                <i class="fab fa-spotify"></i> Open in Spotify
+            </a>
+        </div>
+
+        <!-- LAYER 7: FOOTER -->
+        <footer class="footer">
+            <div class="rgb-text">Made with DeepSeek</div>
+        </footer>
+    </div>
+
+    <!-- LAYER 8: TOMBOL SOSMED MELAYANG -->
+    <div class="social-buttons">
+        <a href="https://wa.me/6283834683978" class="social-button whatsapp">
+            <i class="fab fa-whatsapp"></i>
+        </a>
+        <a href="https://instagram.com/lestnsgr" class="social-button instagram">
+            <i class="fab fa-instagram"></i>
+        </a>
+    </div>
+
+    <script>
+        // === FUNGSI GANTI TEMA (DARK/LIGHT) ===
+        const themeToggle = document.getElementById('themeToggle');
+        const icon = themeToggle.querySelector('i');
+        
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            
+            // Ganti icon bulan/matahari
+            if (document.body.classList.contains('dark-mode')) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+            }
+        });
+
+        // === FUNGSI BIKIN TETESAN AIR ===
+        const waterDrop = document.getElementById('waterDrop');
+        
+        function createDrops() {
+            const dropCount = 20; // Jumlah tetesan
+            
+            for (let i = 0; i < dropCount; i++) {
+                const drop = document.createElement('div');
+                drop.classList.add('drop');
+                
+                // Acak posisi horizontal
+                drop.style.left = `${Math.random() * 100}%`;
+                
+                // Acak ukuran
+                const size = Math.random() * 10 + 5;
+                drop.style.width = `${size}px`;
+                drop.style.height = `${size}px`;
+                
+                // Acak kecepatan jatuh
+                const duration = Math.random() * 3 + 2;
+                const delay = Math.random() * 5;
+                drop.style.animation = `drop ${duration}s linear ${delay}s infinite`;
+                
+                waterDrop.appendChild(drop);
+            }
+        }
+        
+        // Jalankan fungsi bikin tetesan
+        createDrops();
+
+        // === FUNGSI AUTOPLAY MUSIK ===
+        // (Harus ada interaksi user dulu baru bisa play)
+        document.addEventListener('click', function() {
+            const audio = document.getElementById('bgMusic');
+            audio.volume = 0.3; // Volume 30% biar ga garing
+            audio.play().catch(e => console.log('Auto-play prevented:', e));
+        }, { once: true }); // Cuma perlu sekali klik
+    </script>
+</body>
+</html>
