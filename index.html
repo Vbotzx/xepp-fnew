@@ -368,6 +368,46 @@
             transform: translateY(-2px);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
+        
+        /* LAYER BARU UNTUK BUTTON ENDPOINT */
+        .endpoint-layer {
+            margin-top: 1.5rem;
+            width: 100%;
+            text-align: center;
+        }
+        
+        /* TOMBOL ENDPOINT BARU */
+        .endpoint-button {
+            background: linear-gradient(45deg, #ff0000, #8b0000, #000000);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.7rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.7);
+            text-decoration: none;
+            animation: glow 1.5s infinite alternate;
+        }
+        
+        .endpoint-button:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 0 20px #ff0000, 0 0 30px #ff0000;
+        }
+        
+        @keyframes glow {
+            from {
+                box-shadow: 0 0 10px rgba(255, 0, 0, 0.7);
+            }
+            to {
+                box-shadow: 0 0 20px #ff0000, 0 0 30px #ff0000;
+            }
+        }
 
         /* FOOTER */
         .footer {
@@ -441,6 +481,11 @@
                 bottom: 1rem;
                 right: 1rem;
             }
+            
+            .endpoint-button {
+                padding: 0.7rem 1.3rem;
+                font-size: 0.9rem;
+            }
         }
     </style>
 </head>
@@ -508,6 +553,13 @@
             </div>
             <a href="https://open.spotify.com/track/0FIDCNYYjNvPVimz5icugS?si=c2Ztz7fVTwmn7JpuDUK0lQ" target="_blank" class="spotify-button">
                 <i class="fab fa-spotify"></i> Open in Spotify
+            </a>
+        </div>
+        
+        <!-- LAYER BARU KHUSUS UNTUK ENDPOINT BUTTON -->
+        <div class="endpoint-layer">
+            <a href="https://api.rwdxxo.my.id" target="_blank" class="endpoint-button">
+                <i class="fas fa-code"></i> View EndPoint Documentation
             </a>
         </div>
 
