@@ -42,6 +42,15 @@
             position: relative;
             min-height: 100vh;
             overflow-x: hidden;
+            transition: opacity 0.6s ease;
+        }
+
+        body:not(.loaded) {
+            opacity: 0;
+        }
+
+        body.loaded {
+            opacity: 1;
         }
 
         /* BACKGROUND GRADIEN */
@@ -487,6 +496,42 @@
                 font-size: 0.9rem;
             }
         }
+
+        /* === LOADING SCREEN (NEW) === */
+        #loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 0.6s ease, visibility 0.6s ease;
+        }
+
+        #loader .spinner {
+            width: 80px;
+            height: 80px;
+            border: 8px solid transparent;
+            border-top: 8px solid var(--primary);
+            border-right: 8px solid var(--secondary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to   { transform: rotate(360deg); }
+        }
+
+        /* Hide the loader after page is ready */
+        #loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
     </style>
 </head>
 <body>
@@ -581,6 +626,10 @@
         </a>
     </div>
 
+    <div id="loader">
+        <div class="spinner"></div>
+    </div>
+
     <script>
         // === ELEMEN UTAMA ===
         const themeToggle = document.getElementById('themeToggle');
@@ -671,6 +720,23 @@
             for (let i = 0; i < 20; i++) {
                 setTimeout(() => createSiluet(), i * 50);
             }
+        });
+
+        // === FUNGSI TAMBAHAN UNTUK LOADING SCREEN ===
+        const loader = document.getElementById('loader');
+
+        // Sembunyikan loader setelah semua konten siap
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                loader.classList.add('hidden');
+                document.body.classList.add('loaded');
+            }, 500); // sedikit jeda agar transisi terasa halus
+        });
+
+        // Tampilkan kembali loader saat akan meninggalkan halaman (efek penutup)
+        window.addEventListener('beforeunload', () => {
+            document.body.classList.remove('loaded');
+            loader.classList.remove('hidden');
         });
     </script>
 </body>
